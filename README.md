@@ -38,4 +38,3 @@ PIRB\ThumbnailGenerator\ThumbnailGeneratorProvider::class,
 
 - Configure the required FFMpeg configurations.
  - FFMpeg will autodetect ffmpeg and ffprobe binaries. If you want to give binary paths explicitly, you can configure them in **.env** file.
-
