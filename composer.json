@@ -1,5 +1,5 @@
 {
-    "name": "pir-b/thumbnail-mosaic",
+    "name": "pir-b/thumbnail-mozaic",
     "description" : "thumbnail mozaic generator",
     "keywords": ["thumbnail", "mozaic", "ffmpeg"],
     "license": "aGPLv3",
