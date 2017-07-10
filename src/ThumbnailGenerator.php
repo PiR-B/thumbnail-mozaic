@@ -15,6 +15,7 @@ class ThumbnailGenerator
      *
      * @param  string $videoPath
      * @param  string $mozaicStoragePath
+     * @param  string $fileName
      * @param  integer $col
      * @param  integer $row
      * @param  integer $thumbWidth
@@ -22,11 +23,12 @@ class ThumbnailGenerator
      * @param  boolean $forceSize (optional)
      * @param  integer $tts (optional)
      *
-     * @return boolean
+     * @return boolean - true if success, false otherwise
      */
     public function getThumbnailMozaic(
         $videoPath,
         $mozaicStoragePath,
+        $fileName,
         $col,
         $row,
         $thumbWidth,
@@ -72,10 +74,9 @@ class ThumbnailGenerator
             $video
                 ->frame(TimeCode::fromSeconds($tts * $i))
                 ->save($imagePath);
-            $arr[] = $this->resizeImage($imagePath, $i, $thumbWidth, $thumbHeight, $forceSize);
+            $arr[] = $this->resizeImage($imagePath, $mozaicStoragePath, $i, $thumbWidth, $thumbHeight, $forceSize);
         }
-        $this->generateMozaic($arr, $mozaicStoragePath, $col, $row);
-        return true;
+        return $this->generateMozaic($arr, $mozaicStoragePath, $fileName, $col, $row);
     }
 
     /**
@@ -83,12 +84,13 @@ class ThumbnailGenerator
      *
      * @param  array  $arrayPictures
      * @param  string $mozaicStoragePath
+     * @param  string $fileName
      * @param  integer $col
      * @param  integer $row
      *
-     * @return void
+     * @return boolean - true if success, false otherwise
      */
-    public function generateMozaic(array $arrayPictures, $mozaicStoragePath, $col, $row)
+    public function generateMozaic(array $arrayPictures, $mozaicStoragePath, $fileName, $col, $row)
     {
         $cpt     = 0;
         $width   = $arrayPictures[0]['width'] * $col;
@@ -113,7 +115,7 @@ class ThumbnailGenerator
                 $cpt++;
             }
         }
-        imagejpeg($image_p, $mozaicStoragePath . 'final.jpg', 100);
+        return imagejpeg($image_p, $mozaicStoragePath . $fileName, 100);
     }
 
     /**
@@ -121,7 +123,7 @@ class ThumbnailGenerator
      *
      * @param  string $videoPath Video resource source path
      *
-     * @return string            Duration of the video
+     * @return string Duration of the video
      */
     public function getVideoDuration($videoPath)
     {
@@ -135,24 +137,25 @@ class ThumbnailGenerator
      * Resize current image.
      *
      * @param  string $imagePath
+     * @param  string $mozaicStoragePath
      * @param  integer $i
      * @param  integer $width
      * @param  integer $height
      * @param  boolean $forceSize
      *
-     * @return void
+     * @return array
      */
-    public function resizeImage($imagePath, $i, $width, $height, $forceSize)
+    public function resizeImage($imagePath, $mozaicStoragePath, $i, $width, $height, $forceSize)
     {
         $img = Image::make($imagePath);
         $img->resize($width, $height, function ($constraint) {
             $constraint->aspectRatio(); // Keep ratio
         });
-        $img->save('/tmp/thumbmozaic-' . $i . '.jpg', 95); // Instance of Intervention\Image\Image
+        $img->save($mozaicStoragePath . 'thumbmozaic-' . $i . '.jpg', 95); // Instance of Intervention\Image\Image
 
         if ($forceSize) {
             $image_p = imagecreatetruecolor($width, $height);
-            $image = imagecreatefromjpeg('/tmp/thumbmozaic-' . $i . '.jpg');
+            $image = imagecreatefromjpeg($mozaicStoragePath . 'thumbmozaic-' . $i . '.jpg');
             imagecopyresampled(
                 $image_p, // resource $dst_image
                 $image, // resource $src_image
@@ -165,11 +168,11 @@ class ThumbnailGenerator
                 $img->width(),  // int $src_w
                 $img->height()  // int $src_h
             );
-            imagejpeg($image_p, '/tmp/thumbmozaic-' . $i . '.jpg', 100);
+            imagejpeg($image_p, $mozaicStoragePath . 'thumbmozaic-' . $i . '.jpg', 100);
         }
 
         return [
-            'path' => '/tmp/thumbmozaic-' . $i . '.jpg',
+            'path' => $mozaicStoragePath . 'thumbmozaic-' . $i . '.jpg',
             'width' => $forceSize ? $width : $img->width(),
             'height' => $forceSize ? $height : $img->height()
         ];
