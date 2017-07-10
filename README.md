@@ -1,12 +1,12 @@
-# thumbnail-mosaic
+# thumbnail-mozaic
 
 This package has been build for been built and tested to work with Laravel 5+
 
-[![License](https://poser.pugx.org/pir-b/thumbnail-mosaic/license)](https://packagist.org/packages/pir-b/thumbnail-mosaic)
-[![Build Status](https://travis-ci.org/PiR-B/thumbnail-mosaic.svg?branch=master)](https://travis-ci.org/PiR-B/thumbnail-mosaic)
-[![Latest Stable Version](https://poser.pugx.org/pir-b/thumbnail-mosaic/v/stable)](https://packagist.org/packages/pir-b/thumbnail-mosaic)
-[![Total Downloads](https://poser.pugx.org/pir-b/thumbnail-mosaic/downloads)](https://packagist.org/packages/pir-b/thumbnail-mosaic)
-[![Latest Unstable Version](https://poser.pugx.org/pir-b/thumbnail-mosaic/v/unstable)](https://packagist.org/packages/pir-b/thumbnail-mosaic)
+[![License](https://poser.pugx.org/pir-b/thumbnail-mozaic/license)](https://packagist.org/packages/pir-b/thumbnail-mozaic)
+[![Build Status](https://travis-ci.org/PiR-B/thumbnail-mozaic.svg?branch=master)](https://travis-ci.org/PiR-B/thumbnail-mozaic)
+[![Latest Stable Version](https://poser.pugx.org/pir-b/thumbnail-mozaic/v/stable)](https://packagist.org/packages/pir-b/thumbnail-mozaic)
+[![Total Downloads](https://poser.pugx.org/pir-b/thumbnail-mozaic/downloads)](https://packagist.org/packages/pir-b/thumbnail-mozaic)
+[![Latest Unstable Version](https://poser.pugx.org/pir-b/thumbnail-mozaic/v/unstable)](https://packagist.org/packages/pir-b/thumbnail-mozaic)
 
 ---
 
@@ -15,7 +15,7 @@ This package has been build for been built and tested to work with Laravel 5+
 With Composer :
 
 ```bash
-composer require pir-b/thumbnail-mosaic
+composer require pir-b/thumbnail-mozaic
 ```
 
 - Add the Service Provider to **providers** array
