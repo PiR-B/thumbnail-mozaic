@@ -127,7 +127,16 @@ class ThumbnailGenerator
      */
     public function getVideoDuration($videoPath)
     {
-        $ffprobe = FFProbe::create();
+        if (config('thumbnailgenerator.binaries.enabled')) {
+            $ffprobe = FFProbe::create([
+                'ffmpeg.binaries'  => config('thumbnailgenerator.binaries.path.ffmpeg'),
+                'ffprobe.binaries' => config('thumbnailgenerator.binaries.path.ffprobe'),
+                'timeout'          => config('thumbnailgenerator.binaries.path.timeout'),
+                'ffmpeg.threads'   => config('thumbnailgenerator.binaries.path.threads'),
+            ]);
+        } else {
+            $ffprobe = FFProbe::create();
+        }
         return (int) $ffprobe
                 ->format($videoPath) // extracts file informations
                 ->get('duration');   // returns the duration property
@@ -159,8 +168,8 @@ class ThumbnailGenerator
             imagecopyresampled(
                 $image_p, // resource $dst_image
                 $image, // resource $src_image
-                $img->width() == $width ? (int) (($height - $img->height()) / 2) : 0, // int $dst_x
-                $img->width() == $width ? 0 : (int) (($height - $img->height()) / 2), // int $dst_y
+                $img->width() == $width ? 0 : (int) (($width - $img->width()) / 2), // int $dst_x
+                $img->width() == $width ? (int) (($height - $img->height()) / 2) : 0, // int $dst_y
                 0, // int $src_x
                 0, // int $src_y
                 $img->width(),  // int $dst_w
